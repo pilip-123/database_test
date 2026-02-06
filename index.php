@@ -3,19 +3,32 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Session configuration
+ini_set('session.gc_maxlifetime', 3600);
+
+// Use root path for session cookie
+session_set_cookie_params(3600, '/');
+
 session_start();
+
+// Regenerate session ID periodically for security
+if (!isset($_SESSION['created'])) {
+    $_SESSION['created'] = time();
+} else if (time() - $_SESSION['created'] > 1800) {
+    session_regenerate_id(true);
+    $_SESSION['created'] = time();
+}
 
 // Get controller and action from URL
 $controller = $_GET['controller'] ?? 'product';
 $action = $_GET['action'] ?? 'index';
 
-// Allow auth actions without login
+// Allow auth actions without login check
 $authActions = ['login', 'register', 'googleLogin', 'logout', 'showLogin'];
-$isAuthController = ($controller === 'auth');
-$isAuthAction = in_array($action, $authActions);
+$isAuthAction = ($controller === 'auth') && in_array($action, $authActions);
 
 // Check if user is logged in (skip for auth actions)
-if (!isset($_SESSION['user_id']) && !($isAuthController && $isAuthAction)) {
+if (!$isAuthAction && (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true)) {
     // User is not logged in, show login page directly
     require_once __DIR__ . '/Views/Auth/Login.php';
     exit();

@@ -1,4 +1,11 @@
 <?php
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    // Set session cookie path before starting
+    session_set_cookie_params(3600, '/');
+    session_start();
+}
+
 // Fixed base path - change this if deploying to a different directory
 $basePath = '/database_test/';
 ?>
@@ -76,7 +83,11 @@ $basePath = '/database_test/';
         <?php endif; ?>
         
         <?php if (isset($_GET['success'])): ?>
-            <p class="success" style="color: green; margin: 10px 0;">Registration successful! Please login.</p>
+            <p class="success" style="color: green; margin: 10px 0;"><?php echo htmlspecialchars($_GET['success']); ?></p>
+        <?php endif; ?>
+        
+        <?php if (isset($_GET['message'])): ?>
+            <p class="message" style="color: blue; margin: 10px 0;"><?php echo htmlspecialchars($_GET['message']); ?></p>
         <?php endif; ?>
         
         <form method="POST" action="?controller=auth&action=login">
