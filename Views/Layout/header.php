@@ -25,7 +25,27 @@
         background: #333;
         color: white;
         padding: 15px;
-        text-align: center;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .user-info span {
+        font-size: 14px;
+    }
+
+    .btn-logout {
+        background: #dc3545;
+        color: white;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 4px;
     }
 
     .tittle {

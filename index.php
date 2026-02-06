@@ -3,9 +3,23 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+session_start();
+
 // Get controller and action from URL
 $controller = $_GET['controller'] ?? 'product';
 $action = $_GET['action'] ?? 'index';
+
+// Allow auth actions without login
+$authActions = ['login', 'register', 'googleLogin', 'logout', 'showLogin'];
+$isAuthController = ($controller === 'auth');
+$isAuthAction = in_array($action, $authActions);
+
+// Check if user is logged in (skip for auth actions)
+if (!isset($_SESSION['user_id']) && !($isAuthController && $isAuthAction)) {
+    // User is not logged in, show login page directly
+    require_once __DIR__ . '/Views/Auth/Login.php';
+    exit();
+}
 
 // Format controller name
 $controllerName = ucfirst($controller) . 'Controller';

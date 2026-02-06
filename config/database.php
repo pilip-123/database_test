@@ -1,6 +1,6 @@
 <?php
 class Database {
-    private $host = "localhost";
+    private $host = "127.0.0.1";
     private $db_name = "shop_control";
     private $username = "root";
     private $password = "";
@@ -16,7 +16,7 @@ class Database {
             );
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
-            echo "Connection error: " . $e->getMessage();
+            die("Connection error: " . $e->getMessage());
         }
         return $this->conn;
     }

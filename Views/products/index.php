@@ -3,6 +3,10 @@ include_once './Views/Layout/header.php'
 ?>
 <header>
     <h1>Shop Control System</h1>
+    <div class="user-info">
+        <span>Welcome, <?php echo $_SESSION['user_name'] ?? 'User'; ?></span>
+        <a href="index.php?controller=auth&action=logout" class="btn btn-logout">Logout</a>
+    </div>
 </header>
 
 <div class="container">
@@ -21,7 +25,7 @@ include_once './Views/Layout/header.php'
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
-            <th>Stock</th> <!-- Changed from Quantity to Stock -->
+            <th>Stock</th>
             <th>Created At</th>
             <th>Actions</th>
         </tr>
@@ -34,7 +38,7 @@ include_once './Views/Layout/header.php'
             <td><?php echo $index +1 ?></td>
             <td><?php echo $row['name']; ?></td>
             <td>$<?php echo number_format($row['price'], 2); ?></td>
-            <td><?php echo $row['stock']; ?></td> <!-- Changed from quantity to stock -->
+            <td><?php echo $row['stock']; ?></td>
             <td><?php echo date('Y-m-d H:i', strtotime($row['created_at'])); ?></td>
             <td class="actions">
                 <a href="index.php?controller=product&action=edit&id=<?php echo $row['id']; ?>"
